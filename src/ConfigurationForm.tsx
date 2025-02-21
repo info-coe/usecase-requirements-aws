@@ -1,7 +1,7 @@
 import { useState } from "react";
 import backgroundImage from './images/side-updated.png';
 
-interface ApplicatioData{
+interface ApplicatioData {
   useCase: string,
   userCount: string,
   mathIntensity: number,
@@ -40,13 +40,13 @@ export default function ConfigurationForm() {
   return (
     <div
       className="min-vh-100 d-flex justify-content-center align-items-center"
-    style={{
-      backgroundColor:"rgba(51, 132, 179, 0.57)"
-    }}
+      style={{
+        backgroundColor: "rgba(51, 132, 179, 0.57)"
+      }}
     >
       <div className="row w-100 justify-content-end">
         {/* Form Section */}
-        <div className="col-lg-6 p-2 text-center">
+        <div className="col-lg-4 p-2 text-center">
           <img src={backgroundImage} alt="sidebg"
             style={{
               backgroundRepeat: "no-repeat",
@@ -56,7 +56,7 @@ export default function ConfigurationForm() {
             }}
           />
         </div>
-        <div className="col-lg-6 p-3">
+        <div className="col-lg-8 p-3">
           <div className="card shadow-lg border-0 p-4 rounded-4 bg-light ">
             {/* Form Heading */}
             <h2
@@ -78,7 +78,7 @@ export default function ConfigurationForm() {
                     className="form-label font-weight-semibold"
                     style={{ fontSize: "14px" }}
                   >
-                    What is your use case?
+                    <b>What is your use case?</b>
                   </label>
                   <input
                     type="text"
@@ -88,7 +88,7 @@ export default function ConfigurationForm() {
                     value={formData.useCase}
                     onChange={handleChange}
                     required
-                    style={{ borderColor: "#3498db", fontSize: "14px" }}
+                    style={{ fontSize: "14px" }}
                   />
                 </div>
 
@@ -98,7 +98,7 @@ export default function ConfigurationForm() {
                     className="form-label font-weight-semibold"
                     style={{ fontSize: "14px" }}
                   >
-                    How many users will be using this application?
+                    <b>How many users will be using this application?</b>
                   </label>
                   <input
                     type="number"
@@ -108,7 +108,7 @@ export default function ConfigurationForm() {
                     value={formData.userCount}
                     onChange={handleChange}
                     required
-                    style={{ borderColor: "#3498db", fontSize: "14px" }}
+                    style={{ fontSize: "14px" }}
                   />
                 </div>
               </div>
@@ -119,9 +119,9 @@ export default function ConfigurationForm() {
                   <label
                     htmlFor="mathIntensity"
                     className="form-label font-weight-semibold"
-                    style={{ fontSize: "14px" }}
+                    style={{ fontSize: "13px" }}
                   >
-                    In the scale of 1 - 10 how mathematical intensive your questions?
+                    <b>In the scale of 1 - 10 how mathematical intensive your questions?</b>
                   </label>
                   <input
                     type="range"
@@ -134,7 +134,6 @@ export default function ConfigurationForm() {
                     onChange={handleChange}
                     style={{
                       borderRadius: "50px",
-                      border: "1px solid #3498db",
                       fontSize: "14px",
                     }}
                   />
@@ -149,7 +148,7 @@ export default function ConfigurationForm() {
                     className="form-label font-weight-semibold"
                     style={{ fontSize: "14px" }}
                   >
-                    What is the preferred language of the application?
+                    <b>What is the preferred language of the application?</b>
                   </label>
                   <select
                     className="form-select rounded-pill shadow-sm"
@@ -158,7 +157,7 @@ export default function ConfigurationForm() {
                     value={formData.multilingualSupport}
                     onChange={handleChange}
                     style={{
-                      borderColor: "#3498db",
+
                       fontSize: "14px",
                     }}
                   >
@@ -177,7 +176,7 @@ export default function ConfigurationForm() {
                     className="form-label font-weight-semibold"
                     style={{ fontSize: "14px" }}
                   >
-                    How much knowledge base do you currently have?
+                    <b>How much knowledge base do you currently have?</b>
                   </label>
                   <input
                     type="text"
@@ -188,7 +187,6 @@ export default function ConfigurationForm() {
                     onChange={handleChange}
                     required
                     style={{
-                      borderColor: "#3498db",
                       fontSize: "14px",
                     }}
                   />
@@ -200,7 +198,7 @@ export default function ConfigurationForm() {
                     className="form-label font-weight-semibold"
                     style={{ fontSize: "14px" }}
                   >
-                    Where is this knowledge base stored?
+                    <b>Where is this knowledge base stored?</b>
                   </label>
                   <select
                     className="form-select rounded-pill shadow-sm"
@@ -209,7 +207,6 @@ export default function ConfigurationForm() {
                     value={formData.storageLocation}
                     onChange={handleChange}
                     style={{
-                      borderColor: "#3498db",
                       fontSize: "14px",
                     }}
                   >
@@ -229,7 +226,7 @@ export default function ConfigurationForm() {
                     className="form-label font-weight-semibold"
                     style={{ fontSize: "14px" }}
                   >
-                    How much uptime is needed?
+                    <b>How much uptime is needed?</b>
                   </label>
                   <input
                     type="time"
@@ -239,7 +236,6 @@ export default function ConfigurationForm() {
                     value={formData.uptime}
                     onChange={handleChange}
                     style={{
-                      borderColor: "#3498db",
                       fontSize: "14px",
                     }}
                   />
@@ -251,7 +247,7 @@ export default function ConfigurationForm() {
                     className="form-label font-weight-semibold"
                     style={{ fontSize: "14px" }}
                   >
-                    Usage Timings
+                    <b>Usage Timings</b>
                   </label>
                   <input
                     type="text"
@@ -261,7 +257,6 @@ export default function ConfigurationForm() {
                     value={formData.usageTimings}
                     onChange={handleChange}
                     style={{
-                      borderColor: "#3498db",
                       fontSize: "14px",
                     }}
                   />
@@ -269,13 +264,16 @@ export default function ConfigurationForm() {
               </div>
 
               {/* Submit Button */}
-              <button
-                type="submit"
-                className="btn btn-primary w-100 py-2 rounded-pill mt-3 shadow-sm"
-                style={{ fontSize: "16px" }}
-              >
-                Submit
-              </button>
+              <div className="d-flex justify-content-center">
+                <button
+                  type="submit"
+                  className="btn btn-primary w-50 py-2 rounded-pill mt-3 shadow-sm"
+                  style={{ fontSize: "16px" }}
+                >
+                  Submit
+                </button>
+              </div>
+
             </form>
           </div>
         </div>
