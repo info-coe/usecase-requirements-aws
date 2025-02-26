@@ -2,11 +2,12 @@ import { useState } from "react";
 import backgroundImage from './images/side-updated.png';
 
 interface ApplicatioData {
-  useCase: string,
-  userCount: string,
-  mathIntensity: number,
-  multilingualSupport: string,
-  knowledgeBase: string,
+  use_case: string,
+  needs_vision: boolean,
+  concurrent_users: string,
+  reasoning_intensity: number,
+  needs_multilingual: string,
+  knowledge_size_gb: string,
   storageLocation: string,
   uptime: string,
   usageTimings: string,
@@ -14,11 +15,12 @@ interface ApplicatioData {
 
 export default function ConfigurationForm() {
   const [formData, setFormData] = useState<ApplicatioData>({
-    useCase: "",
-    userCount: "",
-    mathIntensity: 0,
-    multilingualSupport: "",
-    knowledgeBase: "",
+    use_case: "",
+    needs_vision: true,
+    concurrent_users: "",
+    reasoning_intensity: 0,
+    needs_multilingual: "",
+    knowledge_size_gb: "",
     storageLocation: "",
     uptime: "",
     usageTimings: "",
@@ -74,7 +76,7 @@ export default function ConfigurationForm() {
               <div className="row h-100 mb-3">
                 <div className="col-12 col-md-6">
                   <label
-                    htmlFor="useCase"
+                    htmlFor="use_case"
                     className="form-label font-weight-semibold"
                     style={{ fontSize: "14px" }}
                   >
@@ -83,9 +85,9 @@ export default function ConfigurationForm() {
                   <input
                     type="text"
                     className="form-control rounded-pill shadow-sm"
-                    id="useCase"
-                    name="useCase"
-                    value={formData.useCase}
+                    id="use_case"
+                    name="use_case"
+                    value={formData.use_case}
                     onChange={handleChange}
                     required
                     style={{ fontSize: "14px" }}
@@ -94,7 +96,7 @@ export default function ConfigurationForm() {
 
                 <div className="col-12 col-md-6">
                   <label
-                    htmlFor="userCount"
+                    htmlFor="concurrent_users"
                     className="form-label font-weight-semibold"
                     style={{ fontSize: "14px" }}
                   >
@@ -103,9 +105,9 @@ export default function ConfigurationForm() {
                   <input
                     type="number"
                     className="form-control rounded-pill shadow-sm"
-                    id="userCount"
-                    name="userCount"
-                    value={formData.userCount}
+                    id="concurrent_users"
+                    name="concurrent_users"
+                    value={formData.concurrent_users}
                     onChange={handleChange}
                     required
                     style={{ fontSize: "14px" }}
@@ -117,7 +119,7 @@ export default function ConfigurationForm() {
               <div className="row mb-3">
                 <div className="col-12 col-md-6">
                   <label
-                    htmlFor="mathIntensity"
+                    htmlFor="reasoning_intensity"
                     className="form-label font-weight-semibold"
                     style={{ fontSize: "13px" }}
                   >
@@ -126,11 +128,11 @@ export default function ConfigurationForm() {
                   <input
                     type="range"
                     className="form-range"
-                    id="mathIntensity"
-                    name="mathIntensity"
+                    id="reasoning_intensity"
+                    name="reasoning_intensity"
                     min="0"
                     max="10"
-                    value={formData.mathIntensity}
+                    value={formData.reasoning_intensity}
                     onChange={handleChange}
                     style={{
                       borderRadius: "50px",
@@ -138,13 +140,13 @@ export default function ConfigurationForm() {
                     }}
                   />
                   <div className="text-center text-muted" style={{ fontSize: "14px" }}>
-                    {formData.mathIntensity}
+                    {formData.reasoning_intensity}
                   </div>
                 </div>
 
                 <div className="col-12 col-md-6">
                   <label
-                    htmlFor="multilingualSupport"
+                    htmlFor="needs_multilingual"
                     className="form-label font-weight-semibold"
                     style={{ fontSize: "14px" }}
                   >
@@ -152,9 +154,9 @@ export default function ConfigurationForm() {
                   </label>
                   <select
                     className="form-select rounded-pill shadow-sm"
-                    id="multilingualSupport"
-                    name="multilingualSupport"
-                    value={formData.multilingualSupport}
+                    id="needs_multilingual"
+                    name="needs_multilingual"
+                    value={formData.needs_multilingual}
                     onChange={handleChange}
                     style={{
 
@@ -172,7 +174,7 @@ export default function ConfigurationForm() {
               <div className="row mb-3">
                 <div className="col-12 col-md-6">
                   <label
-                    htmlFor="knowledgeBase"
+                    htmlFor="knowledge_size_gb"
                     className="form-label font-weight-semibold"
                     style={{ fontSize: "14px" }}
                   >
@@ -181,9 +183,9 @@ export default function ConfigurationForm() {
                   <input
                     type="text"
                     className="form-control rounded-pill shadow-sm"
-                    id="knowledgeBase"
-                    name="knowledgeBase"
-                    value={formData.knowledgeBase}
+                    id="knowledge_size_gb"
+                    name="knowledge_size_gb"
+                    value={formData.knowledge_size_gb}
                     onChange={handleChange}
                     required
                     style={{
