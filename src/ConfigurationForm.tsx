@@ -231,7 +231,7 @@ export default function ConfigurationForm() {
                     <b>How much uptime is needed?</b>
                   </label>
                   <input
-                    type="time"
+                    type="text"
                     className="form-control rounded-pill shadow-sm"
                     id="uptime"
                     name="uptime"
