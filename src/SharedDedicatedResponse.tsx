@@ -7,34 +7,44 @@ export default function SharedDedicatedResponse() {
   const { state } = useLocation();
   //eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [values, setValues] = useState(state?.data || null);
-  //eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [userData, setUserData] = useState(state?.userData || null);
 
-  const handleDeployment = (e:any) => {
+  const handleDeployment = (e: any) => {
     e.preventDefault();
-    // axios.post("your_url")
-    // .then((response) => {
-    //     console.log(response.data);
-            axios.post(`${process.env.REACT_APP_BACKEND_HOST}/sendemail`, userData,{
-                headers: {
-                    "Content-Type":"application/json",
-                    "Access-Control-Allow-Origin":"*",
-                    "Access-Control-Allow-Headers":"*"
-                }
-            }).then((res)=>{
-                console.log(res.data);
-                alert("Email sent successfully");
-            }).catch((err)=>{
-                console.log(err);
-            })
-    // })
-    // .catch((error) => {
-    //     console.error(error);
-    // });
-  }
+    axios
+      .post("https://3pdfehsle4.execute-api.us-east-1.amazonaws.com/dev/", {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Headers": "*",
+          "Access-Control-Allow-Methods": "OPTIONS, GET, POST",
+        },
+      })
+      .then((response) => {
+        const appUrl = response.data.body.app_url;
+        setUserData({ ...userData, app_url: appUrl });
+        axios
+          .post(`${process.env.REACT_APP_BACKEND_HOST}/sendemail`, userData, {
+            headers: {
+              "Content-Type": "application/json",
+              "Access-Control-Allow-Origin": "*",
+              "Access-Control-Allow-Headers": "*",
+            },
+          })
+          .then((res) => {
+            // console.log(res.data);
+            alert("Email sent successfully");
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
-  console.log(userData);
-  
+  // console.log(userData);
+
   return (
     <div className="container">
       <div className="one">

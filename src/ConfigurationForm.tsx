@@ -73,7 +73,7 @@ export default function ConfigurationForm() {
       }
     )
     .then((res)=>{
-      console.log(res.data);
+      // console.log(res.data);
       const data = res.data;
       navigate("/result",{state:{data,userData}})
     })
