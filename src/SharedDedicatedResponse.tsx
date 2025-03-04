@@ -15,14 +15,15 @@ export default function SharedDedicatedResponse() {
     // axios.post("your_url")
     // .then((response) => {
     //     console.log(response.data);
-    console.log(`${process.env.REACT_APP_BACKEND_HOST}/sendemail`)
             axios.post(`${process.env.REACT_APP_BACKEND_HOST}/sendemail`, userData,{
                 headers: {
+                    "Content-Type":"application/json",
                     "Access-Control-Allow-Origin":"*",
                     "Access-Control-Allow-Headers":"*"
                 }
             }).then((res)=>{
                 console.log(res.data);
+                alert("Email sent successfully");
             }).catch((err)=>{
                 console.log(err);
             })
