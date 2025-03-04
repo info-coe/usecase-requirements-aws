@@ -1,42 +1,85 @@
 import { useState } from "react";
 import backgroundImage from './images/side-updated.png';
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 interface ApplicatioData {
   use_case: string,
   needs_vision: boolean,
-  concurrent_users: string,
+  concurrent_users: number,
   reasoning_intensity: number,
-  needs_multilingual: string,
-  knowledge_size_gb: string,
+  needs_multilingual: boolean,
+  knowledge_size_gb: number,
   storageLocation: string,
   uptime: string,
   usageTimings: string,
+}
+
+interface userData{
+  username: string,
+  receipientMail : string
 }
 
 export default function ConfigurationForm() {
   const [formData, setFormData] = useState<ApplicatioData>({
     use_case: "",
     needs_vision: true,
-    concurrent_users: "",
+    concurrent_users: 0,
     reasoning_intensity: 0,
-    needs_multilingual: "",
-    knowledge_size_gb: "",
-    storageLocation: "",
+    needs_multilingual: false,
+    knowledge_size_gb: 0,
+    storageLocation: "s3",
     uptime: "",
     usageTimings: "",
   });
 
+  const [userData, setUserData] = useState<userData>({
+    username:"",
+    receipientMail:""
+  })
+
+  const navigate = useNavigate();
+
   const handleChange = (e: any) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
+    if(name === "needs_multilingual"){
+      setFormData((prev) => ({ ...prev, [name]: value === "true" }));
+    }else{
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
+  };
+
+  const handleUserData = (e:any) => {
+    const { name, value } = e.target;
+    setUserData({
+      ...userData,
       [name]: value,
     });
-  };
+  }
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
     console.log("Form Submitted:", formData);
+    axios.post("https://pdk80npe06.execute-api.us-east-1.amazonaws.com/dev/", formData,
+      {
+        headers : {
+          "Content-Type" : "application/json",
+          "Access-Control-Allow-Origin":"*",
+          "Access-Control-Allow-Headers":"*"
+        }
+      }
+    )
+    .then((res)=>{
+      console.log(res.data);
+      const data = res.data;
+      navigate("/result",{state:{data,userData}})
+    })
+    .catch((err)=>{
+      console.log(err);
+    })
   };
 
   return (
@@ -74,6 +117,47 @@ export default function ConfigurationForm() {
             <form onSubmit={handleSubmit}>
               {/* Use Case and User Count Inputs (2 inputs in 1 row) */}
               <div className="row h-100 mb-3">
+              <div className="col-12 col-md-6">
+                  <label
+                    htmlFor="username"
+                    className="form-label font-weight-semibold"
+                    style={{ fontSize: "14px" }}
+                  >
+                    <b>Your Full Name</b>
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control rounded-pill shadow-sm"
+                    id="username"
+                    name="username"
+                    pattern="[A-Za-z\s]+"
+                    title="Please use only alphabets"
+                    value={userData.username}
+                    onChange={handleUserData}
+                    required
+                    style={{ fontSize: "14px" }}
+                  />
+                </div>
+                <div className="col-12 col-md-6">
+                  <label
+                    htmlFor="receipientMail"
+                    className="form-label font-weight-semibold"
+                    style={{ fontSize: "14px" }}
+                  >
+                    <b>Email address</b>
+                  </label>
+                  <input
+                    type="email"
+                    className="form-control rounded-pill shadow-sm"
+                    id="receipientMail"
+                    name="receipientMail"
+                    title="Please use valid email address"
+                    value={userData.receipientMail}
+                    onChange={handleUserData}
+                    required
+                    style={{ fontSize: "14px" }}
+                  />
+                </div>
                 <div className="col-12 col-md-6">
                   <label
                     htmlFor="use_case"
@@ -87,6 +171,8 @@ export default function ConfigurationForm() {
                     className="form-control rounded-pill shadow-sm"
                     id="use_case"
                     name="use_case"
+                    pattern="[A-Za-z\s]+"
+                    title="Please use only alphabets"
                     value={formData.use_case}
                     onChange={handleChange}
                     required
@@ -107,6 +193,8 @@ export default function ConfigurationForm() {
                     className="form-control rounded-pill shadow-sm"
                     id="concurrent_users"
                     name="concurrent_users"
+                    min={0}
+                    pattern="^[0-9]\d*$"
                     value={formData.concurrent_users}
                     onChange={handleChange}
                     required
@@ -138,6 +226,7 @@ export default function ConfigurationForm() {
                       borderRadius: "50px",
                       fontSize: "14px",
                     }}
+                    required
                   />
                   <div className="text-center text-muted" style={{ fontSize: "14px" }}>
                     {formData.reasoning_intensity}
@@ -156,7 +245,7 @@ export default function ConfigurationForm() {
                     className="form-select rounded-pill shadow-sm"
                     id="needs_multilingual"
                     name="needs_multilingual"
-                    value={formData.needs_multilingual}
+                    value={String(formData.needs_multilingual)}
                     onChange={handleChange}
                     style={{
 
@@ -164,8 +253,8 @@ export default function ConfigurationForm() {
                     }}
                   >
                     <option value="select">--select--</option>
-                    <option value="yes">Yes</option>
-                    <option value="no">No</option>
+                    <option value="true">Yes</option>
+                    <option value="false">No</option>
                   </select>
                 </div>
               </div>
@@ -178,7 +267,7 @@ export default function ConfigurationForm() {
                     className="form-label font-weight-semibold"
                     style={{ fontSize: "14px" }}
                   >
-                    <b>How much knowledge base do you currently have?</b>
+                    <b>How much knowledge base do you currently have?(In GB)</b>
                   </label>
                   <input
                     type="text"
@@ -235,11 +324,14 @@ export default function ConfigurationForm() {
                     className="form-control rounded-pill shadow-sm"
                     id="uptime"
                     name="uptime"
+                    pattern="^[1-9]\d*/[1-9]\d*$"
+                    title="Please use valid format. For Example 24/7"
                     value={formData.uptime}
                     onChange={handleChange}
                     style={{
                       fontSize: "14px",
                     }}
+                    required
                   />
                 </div>
 

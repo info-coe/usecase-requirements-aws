@@ -1,7 +1,6 @@
-import { BrowserRouter, Routes, Route, Form } from "react-router-dom";
+import { BrowserRouter, Routes, Route} from "react-router-dom";
 import ConfigurationForm from "./ConfigurationForm";
-// import SharedDedicatedResponse from "./SharedDedicatedResponse";
-import CardComponent from "./Form";
+import SharedDedicatedResponse from "./SharedDedicatedResponse";
 
 function App() {
 
@@ -11,7 +10,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<ConfigurationForm />} />
-          <Route path="result" element={<CardComponent/>} />
+          <Route path="result" element={<SharedDedicatedResponse/>} />
         </Routes>
       </BrowserRouter>
     </>
