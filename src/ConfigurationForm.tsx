@@ -63,7 +63,7 @@ export default function ConfigurationForm() {
   const handleSubmit = (e: any) => {
     e.preventDefault();
     console.log("Form Submitted:", formData);
-    axios.post("https://pdk80npe06.execute-api.us-east-1.amazonaws.com/dev/", formData,
+    axios.post(`${process.env.REACT_APP_MODEL_ENDPOINT}`, formData,
       {
         headers : {
           "Content-Type" : "application/json",

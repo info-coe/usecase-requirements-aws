@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import "./shared.css";
 import axios from "axios";
@@ -7,32 +7,45 @@ export default function SharedDedicatedResponse() {
   const { state } = useLocation();
   //eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [values, setValues] = useState(state?.data || null);
+  //eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [userData, setUserData] = useState(state?.userData || null);
 
-  const handleDeployment = (e: any) => {
-    e.preventDefault();
+  const navigate = useNavigate();
+
+  const handleDeployment = (
+    EstimatedCost: number,
+    MemoryType: string,
+    Model: string
+  ) => {
+    const updatedUserData = {
+      ...userData,
+      responseToDeploy: MemoryType,
+      estimatedPrice: EstimatedCost,
+      suggestedModel: Model,
+    };
+
     axios
-      .post("https://3pdfehsle4.execute-api.us-east-1.amazonaws.com/dev/", {
+      .post(`${process.env.REACT_APP_APP_URL_ENDPOINT}`, {
         headers: {
           "Access-Control-Allow-Origin": "*",
           "Access-Control-Allow-Headers": "*",
-          "Access-Control-Allow-Methods": "OPTIONS, GET, POST",
+          "Access-Control-Allow-Methods": "OPTIONS, POST",
         },
       })
       .then((response) => {
         const appUrl = response.data.body.app_url;
-        setUserData({ ...userData, app_url: appUrl });
+        updatedUserData.appUrl = appUrl;
+
         axios
-          .post(`${process.env.REACT_APP_BACKEND_HOST}/sendemail`, userData, {
+          .post(`${process.env.REACT_APP_BACKEND_HOST}/sendemail`, updatedUserData, {
             headers: {
-              "Content-Type": "application/json",
-              "Access-Control-Allow-Origin": "*",
-              "Access-Control-Allow-Headers": "*",
+              "Content-Type": "application/json"
             },
           })
           .then((res) => {
             // console.log(res.data);
             alert("Email sent successfully");
+            navigate("/");
           })
           .catch((err) => {
             console.log(err);
@@ -73,7 +86,17 @@ export default function SharedDedicatedResponse() {
           <p>Model suggestions : {values.model_suggestion}</p>
         </div>
         <div className="send">
-          <button onClick={handleDeployment}>DEPLOY NOW</button>
+          <button
+            onClick={() =>
+              handleDeployment(
+                values.monthly_cost_shared,
+                "Shared Memory",
+                values.model_suggestion
+              )
+            }
+          >
+            DEPLOY NOW
+          </button>
         </div>
       </div>
       <div className="two">
@@ -102,7 +125,17 @@ export default function SharedDedicatedResponse() {
           <p>Model suggestions : {values.model_suggestion}</p>
         </div>
         <div className="send">
-          <button onClick={handleDeployment}>DEPLOY NOW</button>
+          <button             
+            onClick={() =>
+              handleDeployment(
+                values.monthly_cost_dedicated,
+                "Dedicated Memory",
+                values.model_suggestion
+              )
+            }
+          >
+            DEPLOY NOW
+          </button>
         </div>
       </div>
     </div>
